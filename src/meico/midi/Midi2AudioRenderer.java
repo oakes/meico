@@ -85,7 +85,8 @@ public class Midi2AudioRenderer {
      * @throws MidiUnavailableException
      */
     public AudioInputStream renderMidi2Audio(Sequence sequence) throws MidiUnavailableException {
-        return this.renderMidi2Audio(sequence, null, 44100, 16, 2);
+        AudioFormat format = new AudioFormat(44100, 16, 2, true, false);
+        return this.renderMidi2Audio(sequence, null, format);
     }
 
     /**
@@ -97,7 +98,9 @@ public class Midi2AudioRenderer {
      * @throws MidiUnavailableException
      */
     public AudioInputStream renderMidi2Audio(Sequence sequence, File soundbankFile) throws MidiUnavailableException {
-        return this.renderMidi2Audio(sequence, soundbankFile, 44100, 16, 2);
+        Soundbank soundbank = loadSoundbank(soundbankFile, this.synth);
+        AudioFormat format = new AudioFormat(44100, 16, 2, true, false);
+        return this.renderMidi2Audio(sequence, soundbank, format);
     }
 
     /**
@@ -113,14 +116,28 @@ public class Midi2AudioRenderer {
      */
     public AudioInputStream renderMidi2Audio(Sequence sequence, File soundbankFile, float sampleRate, int sampleSizeInBits, int channels) throws MidiUnavailableException {
         Soundbank soundbank = loadSoundbank(soundbankFile, this.synth);
+        AudioFormat format = new AudioFormat(sampleRate, sampleSizeInBits, channels, true, false);
+        return this.renderMidi2Audio(sequence, soundbank, format);
+    }
 
+    /**
+     * creates an AudioInputStream based on the sequence
+     *
+     * @param sequence
+     * @param soundbank
+     * @param sampleRate
+     * @param sampleSizeInBits
+     * @param channels
+     * @return
+     * @throws MidiUnavailableException
+     */
+    public AudioInputStream renderMidi2Audio(Sequence sequence, Soundbank soundbank, AudioFormat format) throws MidiUnavailableException {
         AudioSynthesizer synth = this.findAudioSynthesizer();
         if (synth == null) {
             System.err.println("No AudioSynthesizer was found!");
             return null;
         }
 
-        AudioFormat format = new AudioFormat(sampleRate, sampleSizeInBits, channels, true, false);
         Map<String, Object> p = new HashMap<String, Object>();
         p.put("interpolation", "sinc");
         p.put("max polyphony", "1024");
