@@ -1,5 +1,6 @@
 (set-env!
   :source-paths #{"src"}
+  :resource-paths #{"resources"}
   :dependencies '[[info.debatty/java-string-similarity "1.1.0"]
                   [com.thaiopensource/jing "20091111"]
                   [com.miglayout/miglayout "3.7.4"]
