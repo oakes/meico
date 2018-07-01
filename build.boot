@@ -1,6 +1,5 @@
 (set-env!
   :source-paths #{"src"}
-  :resource-paths #{"resources"}
   :dependencies '[[info.debatty/java-string-similarity "1.1.0"]
                   [com.thaiopensource/jing "20091111"]
                   [com.miglayout/miglayout "3.7.4"]
@@ -12,7 +11,7 @@
 
 (task-options!
   pom {:project 'org.clojars.oakes/meico
-       :version "0.3.5-1"
+       :version "0.3.5-2"
        :description "A converter framework with support for MEI, MSM, MIDI, WAV, MP3, chroma, and XSLT"
        :url "https://github.com/oakes/meico"
        :license {"Public Domain" "http://unlicense.org/UNLICENSE"}}
